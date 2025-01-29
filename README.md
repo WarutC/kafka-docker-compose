@@ -8,36 +8,43 @@
     mkdir -p kraft-data kraft-logs config
     ```
 
-2. Create JAAS config (config/kafka_server_jaas.conf on all nodes):
+1. Change folder owner
+
+    ```bash
+    sudo chown -R 1000:1000 kraft-data
+    sudo chown -R 1000:1000 kraft-logs
+    ```
+
+1. Create JAAS config (config/kafka_server_jaas.conf on all nodes):
 
     ```conf
     KafkaServer {
-    org.apache.kafka.common.security.scram.ScramLoginModule required
-    username="admin"
-    password="admin-secret";
+        org.apache.kafka.common.security.scram.ScramLoginModule required
+        username="admin"
+        password="admin-secret";
     };
     ```
 
-3. Start kafka1 first:
+1. Start kafka1 first:
 
     ```bash
-    docker-compose up -d
+    docker compose up -d
     ```
 
-4. Get Cluster ID from kafka1:
+1. Get Cluster ID from kafka1:
 
     ```bash
     docker logs kafka1 | grep "Cluster ID"
     ```
 
-5. Update kafka2 and kafka3:
+1. Update kafka2 and kafka3:
 
     Replace random-uuid with get-uuid command in their command sections
 
-6. Start kafka2 and kafka3:
+1. Start kafka2 and kafka3:
 
     ```bash
-    docker-compose up -d
+    docker compose up -d
     ```
 
 ## Client Connection Example
@@ -67,7 +74,7 @@ kafka-console-producer.sh \
 ```bash
 services:
   kafka:
-    image: apache/kafka:3.6.1
+    image: apache/kafka:3.9.0
     container_name: kafka1
     hostname: kafka1
     environment:
@@ -98,7 +105,7 @@ services:
 ```bash
 services:
   kafka:
-    image: apache/kafka:3.6.1
+    image: apache/kafka:3.9.0
     container_name: kafka2
     hostname: kafka2
     environment:
@@ -129,7 +136,7 @@ services:
 ```bash
 services:
   kafka:
-    image: apache/kafka:3.6.1
+    image: apache/kafka:3.9.0
     container_name: kafka3
     hostname: kafka3
     environment:

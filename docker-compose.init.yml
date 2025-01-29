@@ -1,0 +1,13 @@
+services:
+   kafka-init:
+    image: apache/kafka:3.9.0
+    container_name: kafka-init
+    volumes:
+      - ./kraft-data:/tmp/kraft-data
+      - ./config:/etc/kafka
+    command: [
+      "sh", "-c",
+      "if [ ! -f /tmp/kraft-data/meta.properties ]; then
+        /opt/kafka/bin/kafka-storage.sh format --ignore-formatted --cluster-id $(/opt/kafka/bin/kafka-storage.sh random-uuid) --config /etc/kafka/kafka.properties;
+      fi"
+    ]
