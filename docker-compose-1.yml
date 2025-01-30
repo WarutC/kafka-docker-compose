@@ -1,7 +1,4 @@
 services:
-  # Cluster ID Generator (runs once)
- 
-
   kafka:
     image: apache/kafka:3.9.0
     container_name: kafka1
